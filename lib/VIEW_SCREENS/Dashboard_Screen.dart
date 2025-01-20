@@ -86,7 +86,8 @@ class DashboardScreen extends StatelessWidget {
                     value: data['value'],
                     subtitle: data['subtitle'],
                     onTap: () async {
-                      dashbordProvider.fetchSales(1,userId,token!);
+
+                      dashbordProvider.fetchSales(1,userId,token);
                       callNext(context, SaleListScreen());
                       print('${data['title']} clicked');
                     },

@@ -51,7 +51,7 @@ class SalesProvider with ChangeNotifier {
     final payload = {
       "BranchID": 1,
       "CompanyID": "1901b825-fe6f-418d-b5f0-7223d0040d08",
-      "CreatedUserID": int.parse(userId),
+      "CreatedUserID": userId,
       "PriceRounding": 2,
       "page_no": page,
       "items_per_page": 10,
