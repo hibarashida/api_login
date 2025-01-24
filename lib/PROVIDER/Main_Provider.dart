@@ -2,20 +2,19 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
-
-
+import 'package:intl/intl.dart';
+import 'dashboard_provider.dart';
 
 class MainProvider with ChangeNotifier {
-
   /// bottomNavigation
 
   int selectedIndex = 0;
-
 
   void onItemTapped(int index) {
     selectedIndex = index;
     notifyListeners();
   }
+
   int selectedFilterIndex = 0;
   int get _selectedFilterIndex => selectedFilterIndex;
 
@@ -26,7 +25,6 @@ class MainProvider with ChangeNotifier {
   }
 
   final List<String> filters = ['Pending', "Invoiced", "Cancelled"];
-
 
   final List<Map<String, dynamic>> dashboardData = [
     {
@@ -55,32 +53,6 @@ class MainProvider with ChangeNotifier {
     },
   ];
 
-  final List<String> months = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December"
-  ];
-
-
-  String _selectedMonth = "This Month";
-
-  String get selectedMonth => _selectedMonth;
-
-  void updateSelectedMonth(String newMonth) {
-    _selectedMonth = newMonth;
-    notifyListeners();
-  }
-
-
   bool _isFirstImage = true;
 
   bool get isFirstImage => _isFirstImage;
@@ -90,7 +62,6 @@ class MainProvider with ChangeNotifier {
     notifyListeners(); // Notify widgets to rebuild
   }
 
-
   bool _isLoading = false;
   String? _errorMessage;
   Map<String, dynamic>? _userDetails;
@@ -99,10 +70,9 @@ class MainProvider with ChangeNotifier {
   String? get errorMessage => _errorMessage;
   Map<String, dynamic>? get userDetails => _userDetails;
 
-  String userName='';
-  String userEmail='';
-  String userPhoto='';
-
+  String userName = '';
+  String userEmail = '';
+  String userPhoto = '';
 
   // Fetch user details
   Future<void> fetchUserDetails(String userID) async {
@@ -110,7 +80,8 @@ class MainProvider with ChangeNotifier {
     _isLoading = true;
     notifyListeners();
 
-    final url = Uri.parse('https://www.api.viknbooks.com/api/v10/users/user-view/$userID/');
+    final url = Uri.parse(
+        'https://www.api.viknbooks.com/api/v10/users/user-view/$userID/');
 
     try {
       final prefs = await SharedPreferences.getInstance();
@@ -144,12 +115,14 @@ class MainProvider with ChangeNotifier {
           _userDetails = data;
           userName = data["data"]["username"] ?? '';
           userEmail = data["data"]["email"] ?? '';
-          userPhoto = data["customer_data"]["photo"] ?? ''; // Corrected path to access the photo
+          userPhoto = data["customer_data"]["photo"] ??
+              ''; // Corrected path to access the photo
         } else {
           print("Response body is null or not a valid JSON");
         }
       } else {
-        print("Failed to fetch user details. Status code: ${response.statusCode}");
+        print(
+            "Failed to fetch user details. Status code: ${response.statusCode}");
       }
     } catch (e) {
       print("Error: $e");
@@ -158,14 +131,4 @@ class MainProvider with ChangeNotifier {
       notifyListeners();
     }
   }
-
-
-
-
-
-
-  
-
-
-
 }

@@ -12,7 +12,6 @@ import '../VIEW_SCREENS/Bottam_Navigation_Screen.dart';
 import '../VIEW_SCREENS/Login_Screen.dart';
 
 class LoginProvider with ChangeNotifier {
-
   /// password visible method
 
   bool _isPasswordVisible = false;
@@ -29,16 +28,16 @@ class LoginProvider with ChangeNotifier {
   TextEditingController usernameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
-
   bool _isLoading = false;
   String? _errorMessage;
 
   bool get isLoading => _isLoading;
   String? get errorMessage => _errorMessage;
 
-  String userId='';
+  String userId = '';
 
-  Future<void> login(String username, String password,BuildContext context) async {
+  Future<void> login(
+      String username, String password, BuildContext context) async {
     if (username.isEmpty || password.isEmpty) {
       notifyListeners();
       return;
@@ -46,14 +45,14 @@ class LoginProvider with ChangeNotifier {
     _isLoading = true;
     notifyListeners();
 
-    final url = Uri.parse('https://api.accounts.vikncodes.com/api/v1/users/login');
+    final url =
+        Uri.parse('https://api.accounts.vikncodes.com/api/v1/users/login');
     final payload = {
-      "username":username,
+      "username": username,
       "password": password,
       "is_mobile": true,
     };
     try {
-
       final response = await http.post(
         url,
         body: jsonEncode(payload),
@@ -65,53 +64,53 @@ class LoginProvider with ChangeNotifier {
 
         final prefs = await SharedPreferences.getInstance();
         await prefs.setString("token", data["data"]["access"]);
-        await prefs.setString("userID",data["data"]["user_id"].toString());
-        String userId = prefs.getString("userID")??'';
-        String token = prefs.getString("token")??'';
+        await prefs.setString("userID", data["data"]["user_id"].toString());
+        String userId = prefs.getString("userID") ?? '';
+        String token = prefs.getString("token") ?? '';
 
         callNextReplacement(
-            context, BottomNavigation_Screen(
-          userId: userId, Token:token,
-        ));
+            context,
+            BottomNavigation_Screen(
+              userId: userId,
+              Token: token,
+            ));
 
         ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-              backgroundColor:AppColors.clgreen,
-              content: Text("Successfully loggined",style: TextStyles.textStyle6,),
-            ),);
+          const SnackBar(
+            backgroundColor: AppColors.clBlack,
+            content: Text(
+              "Successfully loggined",
+              style: TextStyles.textStylegreen,
+            ),
+          ),
+        );
         clearLoginCT();
         notifyListeners();
       } else {
-            "Login failed. Please try again.";
+        "Login failed. Please try again.";
         notifyListeners();
       }
     } catch (e) {
       print(e.toString() + "error");
-      ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            backgroundColor: AppColors.redcolor,
-            content: Text(
-              "Invalid username or password. Please try again.",
-              style: TextStyles.textStyle6,
-            ),
-          ));
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+        backgroundColor: AppColors.redcolor,
+        content: Text(
+          "Invalid username or password. Please try again.",
+          style: TextStyles.textStylelogin,
+        ),
+      ));
       notifyListeners();
     } finally {
-
       _isLoading = false;
       notifyListeners();
     }
   }
 
-
-
-  void clearLoginCT(){
+  void clearLoginCT() {
     usernameController.clear();
     passwordController.clear();
     notifyListeners();
   }
-
-
 
   /// Logout
 
@@ -127,5 +126,4 @@ class LoginProvider with ChangeNotifier {
       print("Logout error: $e");
     }
   }
-
 }

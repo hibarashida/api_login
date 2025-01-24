@@ -24,146 +24,166 @@ class LoginScreen extends StatelessWidget {
         body: SingleChildScrollView(
           child: Form(
             key: formKey,
-            child: Column(
-              mainAxisAlignment: Dimensions.spaceBetween,
-              children: [
-                Row(
-                  mainAxisAlignment: Dimensions.spaceBetween,
-                  children: [
-                    const SizedBox(),
-                    Padding(
-                      padding: Dimensions.allpadding,
-                      child: Row(
-                        children: [
-                          Image.asset(
-                            languageSymbol,
-                            scale: 5,
-                          ),
-                          const SizedBox(
-                            width: 5,
-                          ),
-                          const Text(
-                            "English",
-                            style: TextStyles.textStyle5,
-                          )
-                        ],
-                      ),
-                    )
-                  ],
+            child: AnimatedContainer(
+              duration: const Duration(seconds: 3),
+              decoration: const BoxDecoration(
+                color: AppColors.black12,
+                gradient: LinearGradient(
+                  colors: [AppColors.greenAccent, Colors.purple, Colors.teal],
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
                 ),
-                SizedBox(
-                  height: height / 6,
-                ),
-                Column(
-                  children: [
-                    const Text(
-                      "Login",
-                      style: TextStyles.textStyle2,
-                    ),
-                    const Text(
-                      "Login to your vikn account",
-                      style: TextStyles.textStyle1,
-                    ),
-                    const SizedBox(
-                      height: 15,
-                    ),
-                    Container(
-                      margin: Dimensions.buttonPadding,
-                      width: width,
-                      decoration: BoxDecoration(
-                        color: AppColors.cll1A2D3B,
-                        borderRadius: Dimensions.smallRadius,
-                        border: Border.all(
-                            color: AppColors.lightblueShade, width: 1),
-                      ),
-                      child: Consumer<LoginProvider>(
-                          builder: (context, value, child) {
-                        return Column(
+              ),
+              child: Column(
+                mainAxisAlignment: Dimensions.spaceBetween,
+                children: [
+                  Row(
+                    mainAxisAlignment: Dimensions.spaceBetween,
+                    children: [
+                      const SizedBox(),
+                      Padding(
+                        padding: Dimensions.allpadding,
+                        child: Row(
                           children: [
-                            UserNameTextField(value.usernameController),
-                            const SizedBox(
-                              height: 10,
+                            Image.asset(
+                              languageSymbol,
+                              scale: 5,
                             ),
-                            passwordTextField(
-                                value.passwordController,
-                                !value.isPasswordVisible,
-                                value.toggleVisibility),
+                            const SizedBox(
+                              width: 5,
+                            ),
+                            const Text(
+                              "English",
+                              style: TextStyles.textStyle5,
+                            )
                           ],
-                        );
-                      }),
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    const Text(
-                      "Forgotten Password?",
-                      style: TextStyles.textStyle3,
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Consumer3<LoginProvider, SalesProvider,MainProvider>(
-                        builder: (context, value, dashbordProvider,mainProvider, child) {
-                      return InkWell(
-                        onTap: () {
-                          final FormState? form = formKey.currentState;
-                          if (form!.validate()) {
-                            final username = value.usernameController.text.trim();
-                            final password = value.passwordController.text.trim();
-                            value.login(username, password,context).then((_) {
-                              mainProvider.selectedIndex = 0;
-                            });
-                          }
-                        },
-                        child: value.isLoading
-                            ? const CircularProgressIndicator(
-                                color: Colors.white,
-                              )
-                            : Container(
-                                height: 48,
-                                width: 125,
-                                decoration: BoxDecoration(
-                                  color: AppColors.btncolor,
-                                  borderRadius: Dimensions.radius20,
-                                ),
-                                child: const Row(
-                                  mainAxisAlignment: Dimensions.spacecenter,
-                                  children: [
-                                    Text(
-                                      "Sign in",
-                                      style: TextStyles.textStyle4,
-                                    ),
-                                    SizedBox(
-                                      width: 5,
-                                    ),
-                                    Icon(
-                                      Icons.arrow_forward,
-                                      color: AppColors.clWhite,
-                                    )
-                                  ],
-                                ),
+                        ),
+                      )
+                    ],
+                  ),
+                  SizedBox(
+                    height: height / 6,
+                  ),
+                  Column(
+                    children: [
+                      const Text(
+                        "Login",
+                        style: TextStyles.textStyle2,
+                      ),
+                      const Text(
+                        "Login to your vikn account",
+                        style: TextStyles.textStyle1,
+                      ),
+                      const SizedBox(
+                        height: 15,
+                      ),
+                      Container(
+                        margin: Dimensions.buttonPadding,
+                        width: width,
+                        decoration: BoxDecoration(
+                          color: AppColors.blueShade,
+                          borderRadius: Dimensions.smallRadius,
+                          border: Border.all(
+                              color: AppColors.lightblueShade, width: 1),
+                        ),
+                        child: Consumer<LoginProvider>(
+                            builder: (context, value, child) {
+                          return Column(
+                            children: [
+                              UserNameTextField(value.usernameController),
+                              const SizedBox(
+                                height: 5,
                               ),
-                      );
-                    })
-                  ],
-                ),
-                SizedBox(
-                  height: height / 5,
-                ),
-                const Column(
-                  crossAxisAlignment: Dimensions.crossspacecenter,
-                  children: [
-                    Text(
-                      "Don’t have an Account?",
-                      style: TextStyles.textStyle6,
-                    ),
-                    Text(
-                      "Sign up now!",
-                      style: TextStyles.textStyle3,
-                    ),
-                  ],
-                )
-              ],
+                              commonLine2(width),
+                              const SizedBox(
+                                height: 5,
+                              ),
+                              passwordTextField(
+                                  value.passwordController,
+                                  !value.isPasswordVisible,
+                                  value.toggleVisibility),
+                            ],
+                          );
+                        }),
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      const Text(
+                        "Forgotten Password?",
+                        style: TextStyles.textStyle3,
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      Consumer3<LoginProvider, SalesProvider, MainProvider>(
+                          builder: (context, value, dashbordProvider,
+                              mainProvider, child) {
+                        return InkWell(
+                          onTap: () {
+                            final FormState? form = formKey.currentState;
+                            if (form!.validate()) {
+                              final username =
+                                  value.usernameController.text.trim();
+                              final password =
+                                  value.passwordController.text.trim();
+                              value
+                                  .login(username, password, context)
+                                  .then((_) {
+                                mainProvider.selectedIndex = 0;
+                              });
+                            }
+                          },
+                          child: value.isLoading
+                              ? const CircularProgressIndicator(
+                                  color: Colors.white,
+                                )
+                              : Container(
+                                  height: 48,
+                                  width: 125,
+                                  decoration: BoxDecoration(
+                                    color: AppColors.btncolor,
+                                    borderRadius: Dimensions.radius20,
+                                  ),
+                                  child: const Row(
+                                    mainAxisAlignment: Dimensions.spacecenter,
+                                    children: [
+                                      Text(
+                                        "Sign in",
+                                        style: TextStyles.textStyle4,
+                                      ),
+                                      SizedBox(
+                                        width: 5,
+                                      ),
+                                      Icon(
+                                        Icons.arrow_forward,
+                                        color: AppColors.clWhite,
+                                      )
+                                    ],
+                                  ),
+                                ),
+                        );
+                      })
+                    ],
+                  ),
+                  SizedBox(
+                    height: height / 5,
+                  ),
+                  const Column(
+                    crossAxisAlignment: Dimensions.crossspacecenter,
+                    children: [
+                      Text(
+                        "Don’t have an Account?",
+                        style: TextStyles.textStyle6,
+                      ),
+                      Text(
+                        "Sign up now!",
+                        style: TextStyles.textStyle3,
+                      ),
+                    ],
+                  )
+                ],
+              ),
             ),
           ),
         ),

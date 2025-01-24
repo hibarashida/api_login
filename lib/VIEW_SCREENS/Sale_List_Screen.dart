@@ -35,11 +35,7 @@ class SaleListScreen extends StatelessWidget {
       ),
       body: Column(
         children: [
-          Container(
-            width: width,
-            height: 1,
-            color: AppColors.lightblueShade,
-          ),
+          commonLine2(width),
           Consumer<SalesProvider>(builder: (context, value, child) {
             return Padding(
               padding: Dimensions.buttonspacePadding,
@@ -65,18 +61,18 @@ class SaleListScreen extends StatelessWidget {
               ),
             );
           }),
-          Container(
-            width: width,
-            height: 1,
-            color: AppColors.lightblueShade,
-          ),
+          commonLine2(width),
           Expanded(
             child: Consumer<SalesProvider>(
               builder: (context, value, child) {
                 return value.isLoading
                     ? const CircularProgressIndicator(color: AppColors.clWhite)
                     : value.filteredSalesList.isEmpty
-                        ? const Center(child: Text("No Sales Data Found...",style: TextStyles.textStyle1,))
+                        ? const Center(
+                            child: Text(
+                            "No Sales Data Found...",
+                            style: TextStyles.textStyle1,
+                          ))
                         : ListView.builder(
                             shrinkWrap: true,
                             physics: const ScrollPhysics(),
@@ -116,7 +112,8 @@ class SaleListScreen extends StatelessWidget {
                                                 ),
                                               ),
                                               Text(sale.customerName,
-                                                  style: TextStyles.textStyles6),
+                                                  style:
+                                                      TextStyles.textStyles6),
                                             ],
                                           ),
                                           Column(
@@ -138,7 +135,7 @@ class SaleListScreen extends StatelessWidget {
                                                           .textStyles18,
                                                     ),
                                                     TextSpan(
-                                                      text: sale.totalTax
+                                                      text: sale.grandTotal
                                                           .toString(), // Replace or concatenate as needed
                                                       style:
                                                           TextStyles.textStyle4,
@@ -151,11 +148,7 @@ class SaleListScreen extends StatelessWidget {
                                         ],
                                       ),
                                     ),
-                                    Container(
-                                      width: 150,
-                                      height: 1,
-                                      color: AppColors.lightblueShade,
-                                    ),
+                                    commonLine()
                                   ],
                                 ),
                               );

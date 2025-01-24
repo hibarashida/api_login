@@ -16,9 +16,6 @@ class Testscreen extends StatelessWidget {
     return SafeArea(
       child: Scaffold(
         backgroundColor: AppColors.clBlack,
-
-
-
       ),
     );
   }

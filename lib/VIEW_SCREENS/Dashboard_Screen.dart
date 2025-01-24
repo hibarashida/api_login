@@ -5,7 +5,6 @@ import 'package:cabzing_driver_app_hiba/PROVIDER/Main_Provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../CONSTANTS/Image_paths.dart';
 import '../CONSTANTS/widgets.dart';
@@ -15,7 +14,7 @@ import 'Sale_List_Screen.dart';
 class DashboardScreen extends StatelessWidget {
   String userId;
   String token;
-   DashboardScreen({super.key,required this.userId,required this.token});
+  DashboardScreen({super.key, required this.userId, required this.token});
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +26,7 @@ class DashboardScreen extends StatelessWidget {
           automaticallyImplyLeading: false,
           backgroundColor: AppColors.clBlack,
           title: SizedBox(
-            height: 39,
+            height: 40,
             width: 138,
             child: Image.asset(
               logoImage,
@@ -47,14 +46,14 @@ class DashboardScreen extends StatelessWidget {
                         ? Image.asset(
                             profileImageRed,
                             key: ValueKey('first_image'),
-                            width: 34,
-                            height: 34,
+                            width: 36,
+                            height: 36,
                           )
                         : Image.asset(
                             profileImageGreen,
                             key: ValueKey('second_image'),
-                            width: 34,
-                            height: 34,
+                            width: 36,
+                            height: 36,
                           ),
                   ),
                 );
@@ -71,34 +70,37 @@ class DashboardScreen extends StatelessWidget {
                 height: 350,
                 decoration: BoxDecoration(
                     borderRadius: Dimensions.smallRadius24,
-                    image: DecorationImage(image: AssetImage(homescreenImage),fit: BoxFit.cover)),
+                    image: DecorationImage(
+                        image: AssetImage(homescreenImage), fit: BoxFit.cover)),
               ),
-          Consumer2<MainProvider,SalesProvider>(
-            builder: (context,value,dashbordProvider,child) {
-              return ListView.builder(
-                shrinkWrap: true,
-                physics: ScrollPhysics(),
-                padding: const EdgeInsets.all(16.0),
-                itemCount: value.dashboardData.length,
-                itemBuilder: (context, index) {
-                  final data = value.dashboardData[index];
-                  return DashboardCard(
-                    icon: data['icon'],
-                    title: data['title'],
-                    value: data['value'],
-                    subtitle: data['subtitle'],
-                    onTap: () async {
-                      if(index==1){
-                        dashbordProvider.fetchSales(1,userId,token);
-                        callNext(context, SaleListScreen());
-                      }
-                      print('${data['title']} clicked');
-                    },
-                  );
-                },
-              );
-            }
-          )
+              Consumer2<MainProvider, SalesProvider>(
+                  builder: (context, value, dashbordProvider, child) {
+                return ListView.builder(
+                  shrinkWrap: true,
+                  physics: ScrollPhysics(),
+                  padding: const EdgeInsets.all(16.0),
+                  itemCount: value.dashboardData.length,
+                  itemBuilder: (context, index) {
+                    final data = value.dashboardData[index];
+                    return DashboardCard(
+                      icon: data['icon'],
+                      title: data['title'],
+                      value: data['value'],
+                      subtitle: data['subtitle'],
+                      onTap: () async {
+                        if (index == 1) {
+                          dashbordProvider.fetchSales(1, userId, token);
+                          callNext(context, SaleListScreen());
+                        }
+                        print('${data['title']} clicked');
+                      },
+                      color1: AppColors.clWhite,
+                      color2: AppColors.cll1A9C9C5,
+                      cardIndex: index,
+                    );
+                  },
+                );
+              })
             ],
           ),
         ),

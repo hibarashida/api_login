@@ -30,7 +30,7 @@ class ProfileScreen extends StatelessWidget {
               ),
               Container(
                 margin: Dimensions.buttonspacePadding,
-                height: height/1.99,
+                height: height / 1.99,
                 width: width,
                 decoration: BoxDecoration(
                     color: AppColors.blackishcolor,
@@ -47,32 +47,40 @@ class ProfileScreen extends StatelessWidget {
                           mainAxisAlignment: Dimensions.spaceBetween,
                           children: [
                             Consumer<MainProvider>(
-                                builder: (context,value,child) {
-                                return Container(
-                                  height: 90,
-                                  width: 90,
-                                  decoration: BoxDecoration(
-                                      color: AppColors.clBlack,
-                                      borderRadius: Dimensions.smallRadius33,
-                                  image: DecorationImage(image: value.userPhoto.isNotEmpty?
-                                  NetworkImage(value.userPhoto):AssetImage(profileImage),fit: BoxFit.cover)),
-
-                                );
-                              }
+                                builder: (context, value, child) {
+                              return Container(
+                                height: 90,
+                                width: 90,
+                                decoration: BoxDecoration(
+                                    color: AppColors.clBlack,
+                                    borderRadius: Dimensions.smallRadius33,
+                                    image: DecorationImage(
+                                        image: value.userPhoto.isNotEmpty
+                                            ? NetworkImage(value.userPhoto)
+                                            : AssetImage(profileImage),
+                                        fit: BoxFit.cover)),
+                              );
+                            }),
+                            const SizedBox(
+                              width: 5,
                             ),
-                            SizedBox(width: 5,),
                             Consumer<MainProvider>(
-                                builder: (context,value,child) {
-                                return  Column(
-                                  crossAxisAlignment: Dimensions.crossspacestart,
-                                  children: [
-                                    Text(value.userName,style: TextStyles.textStyle20,),
-                                    Text(value.userEmail,style: TextStyles.textStyle14),
-                                  ],
-                                );
-                              }
+                                builder: (context, value, child) {
+                              return Column(
+                                crossAxisAlignment: Dimensions.crossspacestart,
+                                children: [
+                                  Text(
+                                    value.userName,
+                                    style: TextStyles.textStyle20,
+                                  ),
+                                  Text(value.userEmail,
+                                      style: TextStyles.textStyle14),
+                                ],
+                              );
+                            }),
+                            const SizedBox(
+                              width: 5,
                             ),
-                            SizedBox(width: 5,),
                             const Icon(
                               Icons.edit,
                               color: AppColors.clWhite,
@@ -80,7 +88,7 @@ class ProfileScreen extends StatelessWidget {
                           ],
                         ),
                       ),
-                      SizedBox(height: 10,),
+                      const SizedBox(height: 5),
                       Row(
                         mainAxisAlignment: Dimensions.spacespaceEvenly,
                         children: [
@@ -88,22 +96,28 @@ class ProfileScreen extends StatelessWidget {
                           profileVerifiedContainers(width / 2.4)
                         ],
                       ),
-                      SizedBox(height: 5,),
-                      Consumer<LoginProvider>(
-                        builder: (context,value,child) {
-                          return logoutBtn(onTap: () {
-                            logOutAlert(onTap: () {  value.logout(context); }, context: context);
-                            }, width: width);
-                        }
+                      const SizedBox(
+                        height: 5,
                       ),
+                      Consumer<LoginProvider>(builder: (context, value, child) {
+                        return logoutBtn(
+                            onTap: () {
+                              logOutAlert(
+                                  onTap: () {
+                                    value.logout(context);
+                                  },
+                                  context: context);
+                            },
+                            width: width);
+                      }),
                     ],
                   ),
                 ),
               ),
               Padding(
-                padding:Dimensions.buttonspaceprofileSidePadding,
+                padding: Dimensions.buttonspaceprofileSidePadding,
                 child: Column(
-                crossAxisAlignment: Dimensions.crossspacestart,
+                  crossAxisAlignment: Dimensions.crossspacestart,
                   children: [
                     const SizedBox(
                       height: 15,
@@ -127,13 +141,12 @@ class ProfileScreen extends StatelessWidget {
                       height: 15,
                     ),
                     profileListTile(
-                        icon: Icons.privacy_tip_outlined, title: 'Privacy Policy'),
-
+                        icon: Icons.privacy_tip_outlined,
+                        title: 'Privacy Policy'),
                   ],
                 ),
               ),
-
-               ],
+            ],
           ),
         ),
       ),
