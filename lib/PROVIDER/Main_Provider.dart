@@ -28,13 +28,13 @@ class MainProvider with ChangeNotifier {
 
   final List<Map<String, dynamic>> dashboardData = [
     {
-      'icon': Icons.book,
+      'icon': Icons.motion_photos_on_rounded,
       'title': 'Bookings',
       'value': '123',
       'subtitle': 'Reserved',
     },
     {
-      'icon': Icons.money,
+      'icon': Icons.egg_outlined,
       'title': 'Invoices',
       'value': '10,232.00',
       'subtitle': 'Rupees',
