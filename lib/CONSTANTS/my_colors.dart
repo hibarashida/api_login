@@ -11,8 +11,12 @@ class AppColors {
   static const clBlack = Color(0xFF000000);
   static const clWhite = Colors.white;
   static const clGrey = Colors.grey;
+  static const clgreen = Colors.green;
   static const black9 = Colors.black26;
+  static const black12 = Colors.black12;
+  static const red = Colors.red;
   static const cll1A2D3B = Color(0xFF1A2D3B);
+  static const cll1A9C9C5 = Color(0xFFA9C9C5);
   static const blueShade = Color(0xFF08131E);
   static const lightblueShade = Color(0xFF1C3347);
   static const lightblue = Color(0xFF1B2B30);
@@ -23,5 +27,6 @@ class AppColors {
   static const blackishcolor = Color(0xFF0F0F0F);
   static const whitegrey = Color(0xFFB5CDFE);
   static const loghtgreen = Color(0xFF28635B);
+  static const cld565656 = Color(0xFF565656);
   static const redcolor = Color(0xFFEA6262);
 }

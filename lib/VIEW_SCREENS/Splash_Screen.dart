@@ -30,9 +30,7 @@ class _SplashScreenState extends State<SplashScreen> {
           localDB();
           String? userId = prefs.getString("userID");
           String? token = prefs.getString("token");
-
-
-          if (userId == null) {
+    if (userId == null) {
             callNextReplacement(  context,LoginScreen());
           }
           else {

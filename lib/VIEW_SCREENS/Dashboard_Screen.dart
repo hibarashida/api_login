@@ -20,11 +20,11 @@ class DashboardScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var width = MediaQuery.of(context).size.width;
-    var height = MediaQuery.of(context).size.height;
     return SafeArea(
       child: Scaffold(
         backgroundColor: AppColors.clBlack,
         appBar: AppBar(
+          automaticallyImplyLeading: false,
           backgroundColor: AppColors.clBlack,
           title: SizedBox(
             height: 39,
@@ -39,7 +39,7 @@ class DashboardScreen extends StatelessWidget {
               builder: (context, value, child) {
                 return Padding(
                   padding: Dimensions.allpaddings,
-                  child: InkWell(
+                  child: GestureDetector(
                     onTap: () {
                       value.toggleImage();
                     },
@@ -62,20 +62,22 @@ class DashboardScreen extends StatelessWidget {
             ),
           ],
         ),
-        body: Column(
-          children: [
-            Container(
-              margin: Dimensions.padding,
-              width: width,
-              height: 350,
-              decoration: BoxDecoration(
-                  borderRadius: Dimensions.smallRadius24,
-                  image: DecorationImage(image: AssetImage(homescreenImage),fit: BoxFit.cover)),
-            ),
-        Consumer2<MainProvider,SalesProvider>(
-          builder: (context,value,dashbordProvider,child) {
-            return Expanded(
-              child: ListView.builder(
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              Container(
+                margin: Dimensions.buttonsPadding,
+                width: width,
+                height: 350,
+                decoration: BoxDecoration(
+                    borderRadius: Dimensions.smallRadius24,
+                    image: DecorationImage(image: AssetImage(homescreenImage),fit: BoxFit.cover)),
+              ),
+          Consumer2<MainProvider,SalesProvider>(
+            builder: (context,value,dashbordProvider,child) {
+              return ListView.builder(
+                shrinkWrap: true,
+                physics: ScrollPhysics(),
                 padding: const EdgeInsets.all(16.0),
                 itemCount: value.dashboardData.length,
                 itemBuilder: (context, index) {
@@ -86,19 +88,19 @@ class DashboardScreen extends StatelessWidget {
                     value: data['value'],
                     subtitle: data['subtitle'],
                     onTap: () async {
-
-                      dashbordProvider.fetchSales(1,userId,token);
-                      callNext(context, SaleListScreen());
+                      if(index==1){
+                        dashbordProvider.fetchSales(1,userId,token);
+                        callNext(context, SaleListScreen());
+                      }
                       print('${data['title']} clicked');
                     },
                   );
                 },
-              ),
-            );
-          }
-        )
-
-        ],
+              );
+            }
+          )
+            ],
+          ),
         ),
       ),
     );

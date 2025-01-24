@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        title: 'Vikn codes',
+        title: 'CabZing',
         theme: ThemeData(
 
 

@@ -10,6 +10,12 @@ class TextStyles {
     fontFamily: 'Poppins',
     fontWeight: FontWeight.w400,
   );
+  static const TextStyle textStyles18 = TextStyle(
+    color: AppColors.cld565656,
+    fontSize: 11,
+    fontFamily: 'Poppins',
+    fontWeight: FontWeight.w300,
+  );
 
   static const TextStyle textStyle5 = TextStyle(
     color: AppColors.clWhite,
@@ -44,6 +50,12 @@ class TextStyles {
     fontFamily: 'Poppins',
     fontWeight: FontWeight.w400,
   );
+  static const TextStyle textStyles6 = TextStyle(
+    color: AppColors.clWhite,
+    fontSize: 13,
+    fontFamily: 'Poppins',
+    fontWeight: FontWeight.w300,
+  );
   static const TextStyle textStyle77 = TextStyle(
     color: AppColors.clGrey,
     fontSize: 15.07,
@@ -64,13 +76,18 @@ class TextStyles {
   );
   static const TextStyle textStyle15 = TextStyle(
     color: AppColors.whitegrey,
-    fontSize: 15,
+    fontSize: 13,
+    fontFamily: 'Poppins',
+    fontWeight: FontWeight.w400,
+  );static const TextStyle textStyleverification = TextStyle(
+    color: AppColors.cll1A9C9C5,
+    fontSize: 13,
     fontFamily: 'Poppins',
     fontWeight: FontWeight.w400,
   );
   static const TextStyle textStyle14 = TextStyle(
     color: AppColors.whitegrey,
-    fontSize: 14,
+    fontSize: 12,
     fontFamily: 'Poppins',
     fontWeight: FontWeight.w400,
   );
@@ -82,7 +99,7 @@ class TextStyles {
   );
   static const TextStyle textStyle20 = TextStyle(
     color: AppColors.clWhite,
-    fontSize: 20,
+    fontSize: 18,
     fontFamily: 'Poppins',
     fontWeight: FontWeight.w500,
   );
@@ -94,6 +111,25 @@ class TextStyles {
   ); static const TextStyle textStyle13 = TextStyle(
     color: AppColors.btncolor,
     fontSize: 12,
+    fontFamily: 'Poppins',
+    fontWeight: FontWeight.w400,
+  );
+
+  static const TextStyle textStyleblack12 = TextStyle(
+    color: AppColors.clBlack,
+    fontSize: 12,
+    fontFamily: 'Poppins',
+    fontWeight: FontWeight.w400,
+  );
+  static const TextStyle textStyleblack15 = TextStyle(
+    color: AppColors.clBlack,
+    fontSize: 15,
+    fontFamily: 'Poppins',
+    fontWeight: FontWeight.w800,
+  );
+  static const TextStyle textStyleHome = TextStyle(
+    color: AppColors.clWhite,
+    fontSize: 16,
     fontFamily: 'Poppins',
     fontWeight: FontWeight.w400,
   );

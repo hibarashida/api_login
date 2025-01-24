@@ -1,11 +1,14 @@
 import 'dart:developer';
 
+import 'package:cabzing_driver_app_hiba/CONSTANTS/my_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../CONSTANTS/Call_Functions.dart';
+import '../CONSTANTS/Text_Style.dart';
+import '../VIEW_SCREENS/Bottam_Navigation_Screen.dart';
 import '../VIEW_SCREENS/Login_Screen.dart';
 
 class LoginProvider with ChangeNotifier {
@@ -21,6 +24,7 @@ class LoginProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  /// login
 
   TextEditingController usernameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
@@ -34,7 +38,7 @@ class LoginProvider with ChangeNotifier {
 
   String userId='';
 
-  Future<void> login(String username, String password) async {
+  Future<void> login(String username, String password,BuildContext context) async {
     if (username.isEmpty || password.isEmpty) {
       notifyListeners();
       return;
@@ -62,6 +66,20 @@ class LoginProvider with ChangeNotifier {
         final prefs = await SharedPreferences.getInstance();
         await prefs.setString("token", data["data"]["access"]);
         await prefs.setString("userID",data["data"]["user_id"].toString());
+        String userId = prefs.getString("userID")??'';
+        String token = prefs.getString("token")??'';
+
+        callNextReplacement(
+            context, BottomNavigation_Screen(
+          userId: userId, Token:token,
+        ));
+
+        ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+              backgroundColor:AppColors.clgreen,
+              content: Text("Successfully loggined",style: TextStyles.textStyle6,),
+            ),);
+        clearLoginCT();
         notifyListeners();
       } else {
             "Login failed. Please try again.";
@@ -69,8 +87,17 @@ class LoginProvider with ChangeNotifier {
       }
     } catch (e) {
       print(e.toString() + "error");
+      ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            backgroundColor: AppColors.redcolor,
+            content: Text(
+              "Invalid username or password. Please try again.",
+              style: TextStyles.textStyle6,
+            ),
+          ));
       notifyListeners();
     } finally {
+
       _isLoading = false;
       notifyListeners();
     }
@@ -78,9 +105,16 @@ class LoginProvider with ChangeNotifier {
 
 
 
+  void clearLoginCT(){
+    usernameController.clear();
+    passwordController.clear();
+    notifyListeners();
+  }
+
 
 
   /// Logout
+
   Future<void> logout(BuildContext context) async {
     print("here");
     try {

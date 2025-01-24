@@ -3,8 +3,6 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
-
-
 import '../MODELS/Sales_Model_Class.dart';
 
 class SalesProvider with ChangeNotifier {
@@ -14,6 +12,7 @@ class SalesProvider with ChangeNotifier {
   bool get isLoading => _isLoading;
   int get currentPage => _currentPage;
   List<SalesData> filtersalesList = [];
+  List<SalesData> datewisefiltersalesList = [];
   List<SalesData> _salesList = [];
 
 /// search
@@ -46,6 +45,8 @@ class SalesProvider with ChangeNotifier {
 
  /// fetch data
 
+
+
   Future<void> fetchSales(int page, String userId, String tokens) async {
     final url = Uri.parse('https://www.api.viknbooks.com/api/v10/sales/sale-list-page/');
     final payload = {
@@ -75,6 +76,8 @@ class SalesProvider with ChangeNotifier {
           _salesList = (data["data"] as List)
               .map((item) => SalesData.fromJson(item))
               .toList();
+          filtersalesList=_salesList;
+          datewisefiltersalesList=_salesList;
           print("Sales List Updated: ${_salesList.length}");
         } else {
           print("No data found in API response.");
@@ -142,7 +145,6 @@ class SalesProvider with ChangeNotifier {
 
   void setStartDate(DateTime date) {
     _startDate = date;
-
     notifyListeners();
   }
 
@@ -154,25 +156,25 @@ class SalesProvider with ChangeNotifier {
 
 
 // Get filtered sales data
-  List<SalesData> _filteredSalesList() {
-    List<SalesData> filteredList = _salesList;
 
-    if (_searchQuery.isNotEmpty) {
-      filteredList = filteredList.where((sale) {
-        final customerName = sale.customerName.toLowerCase();
-        final voucherNo = sale.voucherNo.toLowerCase();
-        return customerName.contains(_searchQuery.toLowerCase()) ||
-            voucherNo.contains(_searchQuery.toLowerCase());
-      }).toList();
-    }
+  List<SalesData> dateWiseFilteredSalesList() {
+
+    // if (_searchQuery.isNotEmpty) {
+    //   filtersalesList = filtersalesList.where((sale) {
+    //     final customerName = sale.customerName.toLowerCase();
+    //     final voucherNo = sale.voucherNo.toLowerCase();
+    //     return customerName.contains(_searchQuery.toLowerCase()) ||
+    //         voucherNo.contains(_searchQuery.toLowerCase());
+    //   }).toList();
+    // }
 
     if (startdateController.text != null && enddateController.text != null) {
-      filteredList = filteredList.where((sale) {
+      datewisefiltersalesList = datewisefiltersalesList.where((sale) {
         return sale.date.isAfter(_startDate!) && sale.date.isBefore(_endDate!);
       }).toList();
     }
 
-    return filteredList;
+    return datewisefiltersalesList;
   }
 
 

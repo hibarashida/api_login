@@ -1,4 +1,5 @@
 import 'package:cabzing_driver_app_hiba/CONSTANTS/Call_Functions.dart';
+import 'package:cabzing_driver_app_hiba/PROVIDER/Main_Provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -69,7 +70,6 @@ class LoginScreen extends StatelessWidget {
                     Container(
                       margin: Dimensions.buttonPadding,
                       width: width,
-                      height: 125,
                       decoration: BoxDecoration(
                         color: AppColors.cll1A2D3B,
                         borderRadius: Dimensions.smallRadius,
@@ -82,7 +82,7 @@ class LoginScreen extends StatelessWidget {
                           children: [
                             UserNameTextField(value.usernameController),
                             const SizedBox(
-                              height: 15,
+                              height: 10,
                             ),
                             passwordTextField(
                                 value.passwordController,
@@ -102,24 +102,16 @@ class LoginScreen extends StatelessWidget {
                     const SizedBox(
                       height: 10,
                     ),
-                    Consumer2<LoginProvider, SalesProvider>(
-                        builder: (context, value, dashbordProvider, child) {
+                    Consumer3<LoginProvider, SalesProvider,MainProvider>(
+                        builder: (context, value, dashbordProvider,mainProvider, child) {
                       return InkWell(
                         onTap: () {
                           final FormState? form = formKey.currentState;
                           if (form!.validate()) {
-                            final username =
-                                value.usernameController.text.trim();
-                            final password =
-                                value.passwordController.text.trim();
-                            value.login(username, password).then((_) {
-                              print("success fully loggined");
-                              callNextReplacement(
-                                  context,
-                                  BottomNavigation_Screen(
-                                    userId: '',
-                                    Token: '',
-                                  ));
+                            final username = value.usernameController.text.trim();
+                            final password = value.passwordController.text.trim();
+                            value.login(username, password,context).then((_) {
+                              mainProvider.selectedIndex = 0;
                             });
                           }
                         },

@@ -16,21 +16,21 @@ class SaleListScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var width = MediaQuery.of(context).size.width;
-    var height = MediaQuery.of(context).size.height;
-
     return Scaffold(
-      backgroundColor:AppColors.clBlack,
-
+      backgroundColor: AppColors.clBlack,
       appBar: AppBar(
-        backgroundColor:AppColors.clBlack,
+        backgroundColor: AppColors.clBlack,
         elevation: 2,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back,color: AppColors.clWhite,),
+          icon: const Icon(
+            Icons.arrow_back,
+            color: AppColors.clWhite,
+          ),
           onPressed: () {
             back(context);
           },
         ),
-        title:  Text("Invoices",style: TextStyles.textStyle7),
+        title: const Text("Invoices", style: TextStyles.textStyle7),
         centerTitle: false,
       ),
       body: Column(
@@ -40,97 +40,132 @@ class SaleListScreen extends StatelessWidget {
             height: 1,
             color: AppColors.lightblueShade,
           ),
-          SizedBox(height: 15,),
-
-          Consumer<SalesProvider>(
-            builder: (context,value,child) {
-              return Row(
-                mainAxisAlignment:Dimensions.spacespaceEvenly,
+          Consumer<SalesProvider>(builder: (context, value, child) {
+            return Padding(
+              padding: Dimensions.buttonspacePadding,
+              child: Row(
+                mainAxisAlignment: Dimensions.spacespaceEvenly,
                 children: [
-                  searchFiled( onChanged: (query) {
-                    value.setSearchQuery(query);
-                  },),
-                  filtersBtn(onTap: () { callNext(context, FilterScreen()); }),
-
+                  searchFiled(
+                    onChanged: (query) {
+                      value.setSearchQuery(query);
+                    },
+                    width: width / 1.9,
+                  ),
+                  const SizedBox(
+                    width: 2,
+                  ),
+                  filtersBtn(
+                    onTap: () {
+                      callNext(context, const FilterScreen());
+                    },
+                    width: width / 2.8,
+                  ),
                 ],
-              );
-            }
-          ),
-          SizedBox(height: 20,),
+              ),
+            );
+          }),
           Container(
             width: width,
             height: 1,
             color: AppColors.lightblueShade,
           ),
-
           Expanded(
             child: Consumer<SalesProvider>(
               builder: (context, value, child) {
                 return value.isLoading
-                    ? CircularProgressIndicator(color: AppColors.clWhite)
+                    ? const CircularProgressIndicator(color: AppColors.clWhite)
                     : value.filteredSalesList.isEmpty
-                    ? Center(child: Text("No Sales Data Found"))
-                    : ListView.builder(
-                  shrinkWrap: true,
-                  physics: ScrollPhysics(),
-                  itemCount: value.filteredSalesList.length,
-                  itemBuilder: (context, index) {
-                    final sale = value.filteredSalesList[index];
-                    return Container(
-                      margin: Dimensions.padding,
-                      width: width,
-                      child: Column(
-                        children: [
-                          Padding(
-                            padding: Dimensions.allpaddings,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
+                        ? const Center(child: Text("No Sales Data Found...",style: TextStyles.textStyle1,))
+                        : ListView.builder(
+                            shrinkWrap: true,
+                            physics: const ScrollPhysics(),
+                            itemCount: value.filteredSalesList.length,
+                            itemBuilder: (context, index) {
+                              final sale = value.filteredSalesList[index];
+                              return Container(
+                                margin: Dimensions.buttonsPadding,
+                                width: width,
+                                child: Column(
                                   children: [
-                                    Text("# ${sale.voucherNo}", style: TextStyles.textStyle6),
-                                    Text(sale.customerName, style: TextStyles.textStyle6),
-                                  ],
-                                ),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.end,
-                                  children: [
-                                    Text(
-                                      sale.status,
-                                      style: sale.status != 'Invoiced'
-                                          ? TextStyles.textStyle12
-                                          : TextStyles.textStyle13,
+                                    Padding(
+                                      padding: Dimensions.allpaddings,
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              RichText(
+                                                text: TextSpan(
+                                                  children: [
+                                                    const TextSpan(
+                                                      text: "# ",
+                                                      style: TextStyles
+                                                          .textStyles18,
+                                                    ),
+                                                    TextSpan(
+                                                      text: sale
+                                                          .voucherNo, // Replace or concatenate as needed
+                                                      style:
+                                                          TextStyles.textStyle6,
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                              Text(sale.customerName,
+                                                  style: TextStyles.textStyles6),
+                                            ],
+                                          ),
+                                          Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.end,
+                                            children: [
+                                              Text(
+                                                sale.status,
+                                                style: sale.status != 'Invoiced'
+                                                    ? TextStyles.textStyle12
+                                                    : TextStyles.textStyle13,
+                                              ),
+                                              RichText(
+                                                text: TextSpan(
+                                                  children: [
+                                                    const TextSpan(
+                                                      text: "SAR.",
+                                                      style: TextStyles
+                                                          .textStyles18,
+                                                    ),
+                                                    TextSpan(
+                                                      text: sale.totalTax
+                                                          .toString(), // Replace or concatenate as needed
+                                                      style:
+                                                          TextStyles.textStyle4,
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
                                     ),
-                                    Text("SAR.${sale.totalTax}", style: TextStyles.textStyle4),
+                                    Container(
+                                      width: 150,
+                                      height: 1,
+                                      color: AppColors.lightblueShade,
+                                    ),
                                   ],
                                 ),
-                              ],
-                            ),
-                          ),
-                          Container(
-                            width: 150,
-                            height: 1,
-                            color: AppColors.lightblueShade,
-                          ),
-                        ],
-                      ),
-                    );
-                  },
-                );
+                              );
+                            },
+                          );
               },
             ),
           )
-
-
-
-
-
-
-
         ],
       ),
-
     );
   }
 }

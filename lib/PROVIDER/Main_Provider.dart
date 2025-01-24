@@ -37,7 +37,7 @@ class MainProvider with ChangeNotifier {
     },
     {
       'icon': Icons.money,
-      'title': 'Earnings',
+      'title': 'Invoices',
       'value': '10,232.00',
       'subtitle': 'Rupees',
     },
@@ -55,7 +55,30 @@ class MainProvider with ChangeNotifier {
     },
   ];
 
+  final List<String> months = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December"
+  ];
 
+
+  String _selectedMonth = "This Month";
+
+  String get selectedMonth => _selectedMonth;
+
+  void updateSelectedMonth(String newMonth) {
+    _selectedMonth = newMonth;
+    notifyListeners();
+  }
 
 
   bool _isFirstImage = true;
@@ -114,12 +137,14 @@ class MainProvider with ChangeNotifier {
 
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body) as Map<String, dynamic>;
+
         if (data != null) {
           print("Response body: ${response.body}");
+
           _userDetails = data;
           userName = data["data"]["username"] ?? '';
-          userEmail =data["data"]["email"] ?? '';
-          userPhoto =data["data"]["photo"] ?? '';
+          userEmail = data["data"]["email"] ?? '';
+          userPhoto = data["customer_data"]["photo"] ?? ''; // Corrected path to access the photo
         } else {
           print("Response body is null or not a valid JSON");
         }

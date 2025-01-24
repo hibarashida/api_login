@@ -2,7 +2,6 @@ import 'package:cabzing_driver_app_hiba/CONSTANTS/dimentions.dart';
 import 'package:cabzing_driver_app_hiba/CONSTANTS/my_colors.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
 import 'Image_paths.dart';
 import 'Text_Style.dart';
 
@@ -11,7 +10,9 @@ Widget UserNameTextField(TextEditingController ct) {
     controller: ct,
     style: TextStyles.textStyle5,
     keyboardType: TextInputType.name,
-    decoration: const InputDecoration(
+    decoration:  const InputDecoration(
+        border: OutlineInputBorder(borderSide: BorderSide.none),
+        focusedBorder: OutlineInputBorder(borderSide: BorderSide.none),
         labelText: "Username",
         labelStyle: TextStyles.textStyle1,
         contentPadding: Dimensions.padding,
@@ -29,8 +30,7 @@ Widget UserNameTextField(TextEditingController ct) {
   );
 }
 
-Widget passwordTextField(
-    TextEditingController ct, bool passwordVisible, Function onTap) {
+Widget passwordTextField(TextEditingController ct, bool passwordVisible, Function onTap) {
   return TextFormField(
     controller: ct,
     style: TextStyles.textStyle5,
@@ -63,27 +63,16 @@ Widget passwordTextField(
 }
 
 /// filterpage month container
-Widget monthConatiner() {
-  final List<String> months = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December"
-  ];
+Widget monthConatiner({
+  required Function(String) onMonthChanged,
+  required String selectedMonth,
+  required List<String> months,
 
-  String selectedMonth = "This Month";
+}) {
 
   return Container(
     height: 35,
-    width: 138,
+    width: 132,
     decoration: BoxDecoration(
       color: AppColors.blueShade,
       borderRadius: Dimensions.radius20,
@@ -103,15 +92,24 @@ Widget monthConatiner() {
             ],
           ),
         ),
+        icon:  Icon(
+          Icons.keyboard_arrow_down,
+          color: AppColors.clWhite,
+        ),
+        dropdownColor: AppColors.clBlack,
         items: months.map((month) {
           return DropdownMenuItem<String>(
+
             value: month,
-            child: Text(month),
+            child: Padding(
+              padding:Dimensions.allpaddingleft,
+              child: Text(month,style: TextStyles.textStyle5,),
+            ),
           );
         }).toList(),
         onChanged: (value) {
           if (value != null) {
-            selectedMonth = value;
+            onMonthChanged(value);
           }
         },
       ),
@@ -124,10 +122,11 @@ Widget monthConatiner() {
 Widget calenderConatiner({
   required Function() onTap,
   required TextEditingController ct,
-}) {
+ }) {
   return Container(
+    margin: Dimensions.buttonspacesPadding,
     height: 38,
-    width: 148,
+    width: 139,
     decoration: BoxDecoration(
       borderRadius: Dimensions.smallRadius24,
       color: AppColors.lightblue,
@@ -143,8 +142,9 @@ Widget calenderConatiner({
             Icons.calendar_month,
             color: AppColors.btncolor,
           ),
+          SizedBox(width: 5,),
           Text(
-            ct.text.isNotEmpty ? ct.text : "01/01/2002",
+            ct.text.isNotEmpty ? ct.text : "select date",
             style: TextStyles.textStyle5,
           )
         ],
@@ -165,7 +165,7 @@ Widget filterContainer({
       child: Container(
           margin: Dimensions.padding,
           height: 43,
-          width: 115,
+          width: 95,
           decoration: BoxDecoration(
             borderRadius: Dimensions.smallRadius27,
             color: isSelected ? AppColors.blueshadE100 : AppColors.lightblue,
@@ -178,33 +178,48 @@ Widget filterContainer({
 }
 
 Widget container(double width, ontap, String text) {
-  return Container(
-      margin: Dimensions.padding,
-      height: 55,
-      width: width,
-      decoration: BoxDecoration(
-          borderRadius: Dimensions.smallRadius27,
-          color: AppColors.blueShade,
-          border: Border.all(color: AppColors.lightblueShade, width: 1)),
-      child: Row(
-        mainAxisAlignment: Dimensions.spacecenter,
-        children: [
-          Text(
-            text,
-            style: TextStyles.textStyle6,
-          ),
-          const Icon(Icons.keyboard_arrow_down),
-        ],
-      ));
+  return Column(
+    children: [
+      Container(
+          margin: Dimensions.buttonsPadding,
+          height: 50,
+          width: width,
+          decoration: BoxDecoration(
+              borderRadius: Dimensions.smallRadius,
+              color: AppColors.blueShade,
+              border: Border.all(color: AppColors.lightblueShade, width: 1)),
+          child: Padding(
+            padding: Dimensions.allpaddings,
+            child: Row(
+              mainAxisAlignment: Dimensions.spaceBetween,
+              children: [
+                Text(
+                  text,
+                  style: TextStyles.textStyle1,
+                ),
+                 Icon(Icons.keyboard_arrow_down,color: AppColors.clWhite,size: 20,),
+              ],
+            ),
+          )),
+      SizedBox(height: 10,),
+      Container(
+        width: 65,
+        height: 1,
+        color: AppColors.lightblueShade,
+      ),
+    ],
+  );
 }
 
 /// sales Screen search filed
+
 Widget searchFiled({
   required Function(String) onChanged,
+  required  double width,
 }) {
   return Container(
     height: 50,
-    width: 200,
+    width: width,
     decoration: BoxDecoration(
       border: Border.all(
         width: 1,
@@ -215,7 +230,7 @@ Widget searchFiled({
     ),
     child: TextFormField(
       onChanged: (value) {
-        onChanged(value); // Trigger the callback with the entered value
+        onChanged(value);
       },
       style: TextStyles.textStyle6,
       decoration: const InputDecoration(
@@ -240,6 +255,7 @@ Widget searchFiled({
 /// sales Screen filter container
 Widget filtersBtn({
   required Function() onTap,
+  required double width,
 }) {
   return InkWell(
     onTap: () {
@@ -247,7 +263,7 @@ Widget filtersBtn({
     },
     child: Container(
         height: 50,
-        width: 143,
+        width: width,
         decoration: BoxDecoration(
           color: AppColors.lightblueShade,
           borderRadius: Dimensions.smallRadius8,
@@ -263,7 +279,7 @@ Widget filtersBtn({
               width: 8,
             ),
             Text(
-              "Add Filter",
+              "Add Filters",
               style: TextStyles.textStyle6,
             )
           ],
@@ -275,7 +291,7 @@ Widget filtersBtn({
 
 Widget profileConatiners(double width) {
   return Container(
-    height: 107,
+    height: 100,
     width: width,
     decoration: BoxDecoration(
       borderRadius: Dimensions.smallRadius33,
@@ -284,9 +300,10 @@ Widget profileConatiners(double width) {
     child: Row(
       mainAxisAlignment: Dimensions.spacestart,
       children: [
+        SizedBox(width: 15,),
         Container(
           height: 78,
-          width: 38,
+          width: 34,
           decoration: BoxDecoration(
             borderRadius: Dimensions.smallRadius111,
             color: AppColors.whitegrey,
@@ -343,12 +360,13 @@ Widget profileVerifiedContainers(double width) {
     child: Row(
       mainAxisAlignment: Dimensions.spacestart,
       children: [
+        SizedBox(width: 15,),
         Container(
           height: 78,
-          width: 38,
+          width: 34,
           decoration: BoxDecoration(
             borderRadius: Dimensions.smallRadius111,
-            color: AppColors.whitegrey,
+            color: AppColors.cll1A9C9C5,
           ),
           child: const Center(
               child: Icon(
@@ -377,7 +395,7 @@ Widget profileVerifiedContainers(double width) {
             ),
             Text(
               "Verified",
-              style: TextStyles.textStyle15,
+              style: TextStyles.textStyleverification,
             ),
           ],
         )
@@ -424,7 +442,7 @@ Widget profileListTile({
   return ListTile(
     leading: Icon(
       icon,
-      size: 16,
+      size: 20,
       color: AppColors.whitegrey,
     ),
     title: Text(
@@ -461,20 +479,21 @@ class DashboardCard extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        margin: const EdgeInsets.only(bottom: 16.0),
-        padding: const EdgeInsets.all(16.0),
+        height: 102,
+        margin: Dimensions.buttonshomePadding,
+        padding: Dimensions.commonpadding16,
         decoration: BoxDecoration(
-          color: Colors.grey.shade900,
+          color: AppColors.blackishcolor,
           borderRadius: Dimensions.smallRadius16,
         ),
         child: Row(
           children: [
             Container(
-              height: 92,
-              width: 40,
+              height: 100,
+              width: 30,
               decoration: BoxDecoration(
                 borderRadius: Dimensions.smallRadius111,
-                color: AppColors.whitegrey,
+                color: AppColors.cll1A9C9C5,
               ),
               child: Center(
                   child: Icon(
@@ -489,25 +508,15 @@ class DashboardCard extends StatelessWidget {
                 children: [
                   Text(
                     title,
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 18.0,
-                      fontWeight: FontWeight.bold,
-                    ),
+                    style: TextStyles.textStyle6
                   ),
                   Text(
                     '$value',
-                    style: const TextStyle(
-                      color: Colors.grey,
-                      fontSize: 14.0,
-                    ),
+                    style:TextStyles.textStyleHome,
                   ),
                   Text(
                     ' $subtitle',
-                    style: const TextStyle(
-                      color: Colors.grey,
-                      fontSize: 14.0,
-                    ),
+                    style: TextStyles.textStyles18
                   ),
                 ],
               ),
